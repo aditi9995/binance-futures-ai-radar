@@ -1,5 +1,5 @@
 """
-AI scoring model
+Advanced AI Scoring Engine
 """
 
 
@@ -11,7 +11,9 @@ class AIScorer:
         rvol,
         price_change,
         open_interest,
-        funding
+        funding,
+        trend,
+        breakout
     ):
 
 
@@ -20,18 +22,21 @@ class AIScorer:
         reasons = []
 
 
+
+        # Volume
+
         if rvol >= 4:
 
-            score += 35
+            score += 30
 
             reasons.append(
-                "Extreme volume"
+                "Extreme volume spike"
             )
 
 
         elif rvol >= 2:
 
-            score += 25
+            score += 20
 
             reasons.append(
                 "High volume"
@@ -40,17 +45,19 @@ class AIScorer:
 
         elif rvol >= 1.5:
 
-            score += 15
+            score += 10
 
             reasons.append(
-                "Volume increase"
+                "Increasing volume"
             )
 
 
 
+        # Momentum
+
         if price_change >= 3:
 
-            score += 25
+            score += 20
 
             reasons.append(
                 "Strong momentum"
@@ -59,7 +66,7 @@ class AIScorer:
 
         elif price_change >= 1:
 
-            score += 15
+            score += 10
 
             reasons.append(
                 "Positive momentum"
@@ -67,28 +74,47 @@ class AIScorer:
 
 
 
+        # Trend
+
+        if trend == "BULLISH":
+
+            score += 20
+
+            reasons.append(
+                "EMA trend bullish"
+            )
+
+
+
+        # Breakout
+
+        if breakout:
+
+            score += 20
+
+            reasons.append(
+                "Resistance breakout"
+            )
+
+
+
+        # Open interest
+
         if open_interest >= 500000:
 
-            score += 25
+            score += 10
 
             reasons.append(
                 "High participation"
             )
 
 
-        elif open_interest >= 100000:
 
-            score += 15
-
-            reasons.append(
-                "Growing OI"
-            )
-
-
+        # Funding
 
         if abs(funding) < 0.0005:
 
-            score += 15
+            score += 5
 
             reasons.append(
                 "Healthy funding"
